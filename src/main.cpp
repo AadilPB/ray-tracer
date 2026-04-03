@@ -1,28 +1,23 @@
 #include "vec3.h"
 #include "ray.h"
 #include "color.h"
+#include "hittable.h"
+#include "sphere.h"
 
 #include <iostream>
 
-bool hit_sphere(const point3 center, double radius, const ray& r)
-{
-    // Here the equation of the circle is used to see if a ray has hit the sphere
-    // The equation of a sphere vectorized is C - P where C is the center of the sphere 
-    // and P is a point on the sphere.
-    // Using this formula with the formula of a ray, rearranging to the quadratic formula
-    // allows us to see when a ray has hit the sphere, where if it has hit the sphere a 
-    // solution exists, rendering the sphere. 
-    vec3 oc = center - r.origin();
-    auto a = dot(r.direction(), r.direction());
-    auto b = -2 * dot(r.direction(), (oc));
-    auto c = dot(oc, oc) - radius * radius;
-    return (b*b - 4*(a * c) >= 0);
-}
+
 
 color ray_color(const ray& r)
 {
-    if (hit_sphere(point3(0,0, -1), 0.3, r))
-        return color(1, 0, 0);
+    auto s = sphere(point3(0, 0, -1), 0.5); 
+    hit_record rec;
+    auto t = s.hit(r, 0, std::numeric_limits<double>::infinity(), rec);
+    if (t == true)
+    {
+        vec3 N = unit_vector(rec.p - vec3(0, 0, -1));
+        return 0.5*color(N.x()+1, N.y() + 1, N.z() + 1);
+    }
 
     vec3 unit_direction = unit_vector(r.direction());
     auto a = 0.5*(unit_direction.y() + 1.0);
