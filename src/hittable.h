@@ -1,7 +1,7 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "ray.h"
+#include "raytracer.h"
 
 class hit_record
 {
@@ -9,6 +9,21 @@ class hit_record
         point3 p;
         vec3 normal;
         double t;
+        bool front_face;
+
+        void set_face_normal(const ray& r, const vec3& outward_normal)
+        {
+            //Sets the hit record normal vector.
+
+            // Check if the ray is hitting the front face from the inside or outside, 
+            // if its inside, the dot product will be positive as the ray and the normal
+            // are in the same direction, it will be negative if the ray is outside
+            // as the ray and the normal are in the opposite direction. 
+            front_face = dot(r.direction(), outward_normal) < 0;
+            normal = front_face ? outward_normal : -outward_normal;
+        }
+    
+
 };
 
 class hittable
@@ -16,7 +31,7 @@ class hittable
     public:
         virtual ~hittable() = default;
 
-        virtual bool hit(const ray& r, double ray_tmin, double ray_tmax, hit_record& rec) const = 0;
+        virtual bool hit(const ray& r, interval ray_t, hit_record& rec) const = 0;
 };
 
 
