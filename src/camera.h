@@ -7,6 +7,7 @@
 #include "raytracer.h"
 #include "hittable.h"
 #include "material.h"
+#include "window.h"
 
 #include <vector>
 
@@ -50,6 +51,8 @@ class camera
                         write_color(pixel_samples_scale * pixel_color, image_data);
                     }
                 }
+                window win(image_width, image_height);
+                win.render_display(image_data);
 
                 stbi_write_png("image.png", image_width, image_height, 3, image_data.data(), image_width * 3);
                 std::clog << "\rDone.                 \n";

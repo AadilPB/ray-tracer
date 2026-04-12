@@ -4,14 +4,23 @@
 #define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <vector>
 
 class window
 {
 
 
     public:
-        double width;
-        double height;
+        
+        window(int width, int height) : width(width), height(height)
+        {} 
+
+        void render_display(std::vector<uint8_t> pixels)
+        {
+            open_window();
+            update_display(pixels);
+            poll_event();
+        }
 
         void open_window()
         {
@@ -20,34 +29,56 @@ class window
                 std::cerr << "Failed to initialize the SDL2 library\n";
             }
 
-            window = SDL_CreateWindow("SDL2 Window",
+            display = SDL_CreateWindow("Render",
                                                 SDL_WINDOWPOS_CENTERED,
                                                 SDL_WINDOWPOS_CENTERED,
-                                                680, 480,
+                                                width, height,
                                                 0);
 
-            if (!window)
+            if (!display)
             {
                 std::cerr << "Failed to create window\n";
             }
 
-            renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-            texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, height, width);
+            renderer = SDL_CreateRenderer(display, -1, 0);
+            texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_TARGET, width, height);
 
             
         
         }
 
-        void update_display()
+        void update_display(std::vector<uint8_t> pixels)
         {
            
+           SDL_UpdateTexture(texture, nullptr, pixels.data(), width * 3);
+           SDL_RenderCopy(renderer, texture, nullptr, nullptr);
+           SDL_RenderPresent(renderer);
+        
+        }
+
+        void poll_event()
+        {
+            bool isRunning = true;
+            SDL_Event ev;
+
+            while(isRunning)
+            {
+                while(SDL_PollEvent(&ev) != 0)
+                {
+                    if(ev.type == SDL_QUIT)
+                        isRunning = false;
+                }
+                
+            }
         }
 
 
     private:
-        SDL_Window *window; 
+        SDL_Window *display; 
         SDL_Renderer *renderer;
         SDL_Texture *texture;
+        int width;
+        int height;
 };
 
 #endif
