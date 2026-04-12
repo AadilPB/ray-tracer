@@ -1,9 +1,14 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 #include "raytracer.h"
 #include "hittable.h"
 #include "material.h"
+
+#include <vector>
 
 class camera 
 {
@@ -27,7 +32,7 @@ class camera
         {
                 initialize();
 
-                std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+                std::vector<uint8_t> image_data;
 
                 for (int j=0; j < image_height; j++)
                 {
@@ -41,11 +46,12 @@ class camera
                             ray r = get_ray(i, j);
                             pixel_color += ray_color(r, max_depth, world);
                         }
-                        
-                        write_color(std::cout, pixel_samples_scale * pixel_color);
+
+                        write_color(pixel_samples_scale * pixel_color, image_data);
                     }
                 }
 
+                stbi_write_png("image.png", image_width, image_height, 3, image_data.data(), image_width * 3);
                 std::clog << "\rDone.                 \n";
         }
 

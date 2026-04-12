@@ -4,6 +4,7 @@
 #include "interval.h"
 #include "vec3.h"
 
+#include <vector>
 
 using color = vec3;
 
@@ -15,7 +16,7 @@ inline double linear_to_gamma(double linear_component)
     return 0;
 }
 
-void write_color(std::ostream& out, const color& pixel_color)
+void write_color(const color& pixel_color, std::vector<uint8_t>& pixel_data)
 {
     auto r = pixel_color.x();
     auto g = pixel_color.y();
@@ -32,8 +33,11 @@ void write_color(std::ostream& out, const color& pixel_color)
     int gbyte = int(256 * intensity.clamp(g));
     int bbyte = int(256 * intensity.clamp(b));
 
-    // Write out pixel color components.
-    out << rbyte << ' ' << gbyte << ' ' << bbyte << '\n';
+    //Push pixel colour components to 1D dynamic array
+    pixel_data.push_back(rbyte);
+    pixel_data.push_back(gbyte);
+    pixel_data.push_back(bbyte);
+
 }
 
 
