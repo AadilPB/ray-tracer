@@ -42,3 +42,5 @@
 
 build/
 CMakeUserPreset.json
+renders/*
+!renders/.gitkeep
