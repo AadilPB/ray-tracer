@@ -32,9 +32,10 @@ class camera
         void render(const hittable& world)
         {
                 initialize();
+                window win(image_width, image_height);
+                std::vector<uint8_t> image_data(image_width * image_height * 3, 0);
 
-                std::vector<uint8_t> image_data;
-
+                win.open_window();
                 for (int j=0; j < image_height; j++)
                 {
                     std::clog << "\rScanline remaining: " << (image_height - j) << ' ' << std::flush;
@@ -47,15 +48,23 @@ class camera
                             ray r = get_ray(i, j);
                             pixel_color += ray_color(r, max_depth, world);
                         }
-
-                        write_color(pixel_samples_scale * pixel_color, image_data);
+                        int position = (j * image_width + i) * 3;
+                        write_color(pixel_samples_scale * pixel_color, image_data, position);
+                        
                     }
+                    
+                    
+                    win.update_display(image_data);
+                    if(win.process_event() == false)
+                    {
+                        break;
+                    }
+                    
                 }
-                window win(image_width, image_height);
-                win.render_display(image_data);
-
+                
                 stbi_write_png("image.png", image_width, image_height, 3, image_data.data(), image_width * 3);
                 std::clog << "\rDone.                 \n";
+                win.poll_event();
         }
 
     private:

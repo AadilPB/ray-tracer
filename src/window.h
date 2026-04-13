@@ -15,12 +15,7 @@ class window
         window(int width, int height) : width(width), height(height)
         {} 
 
-        void render_display(std::vector<uint8_t> pixels)
-        {
-            open_window();
-            update_display(pixels);
-            poll_event();
-        }
+      
 
         void open_window()
         {
@@ -41,7 +36,7 @@ class window
             }
 
             renderer = SDL_CreateRenderer(display, -1, 0);
-            texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_TARGET, width, height);
+            texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, width, height);
 
             
         
@@ -70,6 +65,18 @@ class window
                 }
                 
             }
+        }
+
+        bool process_event()
+        {
+            SDL_Event ev;
+            while(SDL_PollEvent(&ev) != 0)
+            {
+                if(ev.type == SDL_QUIT)
+                    return false;
+            }
+
+            return true;
         }
 
 
