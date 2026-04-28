@@ -79,10 +79,32 @@ int main()
     cam.defocus_angle =  0.6;
     cam.focus_dist    = 10.0;
 
+    
 
     auto start = std::chrono::steady_clock::now();
+    cam.initialize();
+    std::vector<uint8_t> image_data(cam.image_height * cam.image_width * 3, 0);
+    window win(cam.image_width, cam.image_height);
+    win.open_window();
 
-    cam.render(world);
+    for (int j = 0; j < cam.image_height; j++)
+    {
+        std::clog << "\rScanline remaining: " << (cam.image_height - j) << ' ' << std::flush;    
+        cam.render_scanline(world, j, image_data);
+
+        win.update_display(image_data);
+        if(win.process_event() == false)
+            {
+                break;
+            }
+
+        
+    }
+
+    stbi_write_png("image.png", cam.image_width, cam.image_height, 3, image_data.data(), cam.image_width * 3);
+    std::clog << "\rDone.                 \n";
+    win.poll_event();
+    
 
     auto end = std::chrono::steady_clock::now();
 

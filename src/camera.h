@@ -20,7 +20,8 @@ class camera
         int    image_width       = 100;  // Rendered unage width in pixel count
         int    samples_per_pixel = 10;   // Count of random samples for each pixel
         int    max_depth         = 10;   // maximum number of ray bounces into the scene
-
+        int    image_height;        //Rendered image height
+        
         double vfov     = 90;               // Vertical view angle (Fielf of View)
         point3 lookfrom = point3(0, 0, 0);  // Point camera is looking up from
         point3 lookat   = point3(0, 0, 0);  // Point camera is looking at
@@ -29,55 +30,23 @@ class camera
         double defocus_angle = 0;   // Variation angle of rays through each pixel
         double focus_dist    = 10;  // Distance from camera lookfrom point to plane of perfect focus
 
-        void render(const hittable& world)
-        {
-                initialize();
-                window win(image_width, image_height);
-                std::vector<uint8_t> image_data(image_width * image_height * 3, 0);
+        void render_scanline(const hittable& world, int& j, std::vector<uint8_t>& image_data)
+        {  
+            for (int i = 0; i< image_width; i++)
+            {
+                color pixel_color(0,0,0);
 
-                win.open_window();
-                for (int j=0; j < image_height; j++)
+                for(int sample = 0; sample < samples_per_pixel; sample ++)
                 {
-                    std::clog << "\rScanline remaining: " << (image_height - j) << ' ' << std::flush;
-                    for (int i = 0; i< image_width; i++)
-                    {
-                        color pixel_color(0,0,0);
-                        
-                        for(int sample = 0; sample < samples_per_pixel; sample ++)
-                        {
-                            ray r = get_ray(i, j);
-                            pixel_color += ray_color(r, max_depth, world);
-                        }
-                        int position = (j * image_width + i) * 3;
-                        write_color(pixel_samples_scale * pixel_color, image_data, position);
-                        
-                    }
-                    
-                    
-                    win.update_display(image_data);
-                    if(win.process_event() == false)
-                    {
-                        break;
-                    }
-                    
+                    ray r = get_ray(i, j);
+                    pixel_color += ray_color(r, max_depth, world);
                 }
-                
-                stbi_write_png("image.png", image_width, image_height, 3, image_data.data(), image_width * 3);
-                std::clog << "\rDone.                 \n";
-                win.poll_event();
+                    int position = (j * image_width + i) * 3;
+                    write_color(pixel_samples_scale * pixel_color, image_data, position);
+                        
+            }  
         }
 
-    private:
-        int    image_height;        //Rendered image height
-        double pixel_samples_scale; // Color scale factor for a sum of pixel samples
-        point3 center;              // Camera center
-        point3 pixel00_loc;         // Location of pixel 0, 0
-        vec3   pixel_delta_u;       // Offset to pixel to the right
-        vec3   pixel_delta_v;       // Offset to pixel below
-        vec3   u, v, w;             // Camera fram basis vectors
-        vec3   defocus_disk_u;      // Defocus disk horizontal radius
-        vec3   defocus_disk_v;      // Defocus disk vertical radius
-        
         void initialize()
         {
             // Calculate image height, ensuring its at least 1.
@@ -116,6 +85,19 @@ class camera
             defocus_disk_u = u * defocus_radius;
             defocus_disk_v = v * defocus_radius;
         }
+
+    private:
+        
+        double pixel_samples_scale; // Color scale factor for a sum of pixel samples
+        point3 center;              // Camera center
+        point3 pixel00_loc;         // Location of pixel 0, 0
+        vec3   pixel_delta_u;       // Offset to pixel to the right
+        vec3   pixel_delta_v;       // Offset to pixel below
+        vec3   u, v, w;             // Camera fram basis vectors
+        vec3   defocus_disk_u;      // Defocus disk horizontal radius
+        vec3   defocus_disk_v;      // Defocus disk vertical radius
+        
+        
 
         ray get_ray(int i, int j) const 
         {
