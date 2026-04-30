@@ -5,8 +5,11 @@
 #include "hittable_list.h"
 #include "material.h"
 #include "sphere.h"
+#include "thread_pool.h"
 
 #include <chrono>
+#include <vector>
+#include <mutex>
 
 using namespace std::chrono;
 
@@ -68,7 +71,7 @@ int main()
 
     cam.aspect_ratio      = 16.0 / 9.0;
     cam.image_width       = 1200;
-    cam.samples_per_pixel = 5;
+    cam.samples_per_pixel = 20;
     cam.max_depth         = 50;
 
     cam.vfov     = 20;
@@ -80,41 +83,72 @@ int main()
     cam.focus_dist    = 10.0;
 
     
-
+    
     auto start = std::chrono::steady_clock::now();
+    
     cam.initialize();
+    
     std::vector<uint8_t> image_data(cam.image_height * cam.image_width * 3, 0);
+    
+    
     window win(cam.image_width, cam.image_height);
+    
     win.open_window();
+    
+    std::vector<std::future<void>> futures;
+    
+    thread_pool pool;
+    
+    std::atomic<int> completed = 0;
+
+    std::mutex scanline_count_mutex;
+    std::mutex window_mutex;
 
     for (int j = 0; j < cam.image_height; j++)
     {
-        std::clog << "\rScanline remaining: " << (cam.image_height - j) << ' ' << std::flush;    
-        cam.render_scanline(world, j, image_data);
-
-        win.update_display(image_data);
-        if(win.process_event() == false)
+           
+        futures.push_back(pool.enqueue([&, j]() mutable{
+            cam.render_scanline(world, j, image_data);
+            completed++;
             {
-                break;
+                std::lock_guard<std::mutex> lock(scanline_count_mutex);
+                std::clog << "\rScanline remaining: " << (cam.image_height - completed) << ' ' << std::flush; 
             }
-
-        
+             
+            {
+                std::lock_guard<std::mutex> lock(scanline_count_mutex);
+                
+                win.update_display(image_data);
+                
+            }
+        }));     
     }
 
-    stbi_write_png("image.png", cam.image_width, cam.image_height, 3, image_data.data(), cam.image_width * 3);
-    std::clog << "\rDone.                 \n";
-    win.poll_event();
+    for (auto& f : futures)
+    {
+        f.get();
+        if(win.process_event() == false)
+        {
+            break;
+        }
+        
+    }
     
-
     auto end = std::chrono::steady_clock::now();
 
     auto elapsed = end - start;
 
     std::clog << "Elapsed time: "  << duration_cast<milliseconds>(elapsed).count() << " ms";
+    
+    stbi_write_png("image.png", cam.image_width, cam.image_height, 3, image_data.data(), cam.image_width * 3);
+    std::clog << "\rDone.                 \n";
+
+    win.poll_event();
+    
+
+ 
    
 
-
-    
 
 }
 
