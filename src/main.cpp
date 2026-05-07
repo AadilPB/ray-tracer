@@ -71,7 +71,7 @@ int main()
 
     cam.aspect_ratio      = 16.0 / 9.0;
     cam.image_width       = 1200;
-    cam.samples_per_pixel = 20;
+    cam.samples_per_pixel = 5;
     cam.max_depth         = 50;
 
     cam.vfov     = 20;
@@ -94,7 +94,7 @@ int main()
     window win(cam.image_width, cam.image_height);
     
     win.open_window();
-    
+    /*
     std::vector<std::future<void>> futures;
     
     thread_pool pool;
@@ -102,8 +102,8 @@ int main()
     std::atomic<int> completed = 0;
 
     std::mutex scanline_count_mutex;
-    std::mutex window_mutex;
-
+    std::mutex window_mutex;*/
+    /*
     for (int j = 0; j < cam.image_height; j++)
     {
            
@@ -132,8 +132,29 @@ int main()
             break;
         }
         
-    }
+    }*/
     
+    int tiles = (cam.image_height + 31) / 32 * (cam.image_height + 31)/32; 
+    int cur_tiles = 0;
+    for(int j = 0; j < cam.image_height; j += 32)
+    {
+        
+        for(int i = 0; i < cam.image_width; i += 32)
+        {
+            std::clog << "\rTiles remaining: " << tiles - cur_tiles << ' ' << std::flush;
+            cam.render_tile(world, i, j, image_data);
+            cur_tiles++;
+            win.update_display(image_data);
+                    
+            
+        }
+        if(win.process_event() == false)
+        {
+            break;
+        }
+       
+    }
+
     auto end = std::chrono::steady_clock::now();
 
     auto elapsed = end - start;

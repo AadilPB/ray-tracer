@@ -47,6 +47,28 @@ class camera
             }  
         }
 
+        void render_tile(const hittable& world, int& i, int& j, std::vector<uint8_t>& image_data)
+        {
+            for(int tile_h = j; tile_h < j + 32 && tile_h < image_height; tile_h ++)
+            {
+                
+                std::clog << tile_h;
+                for(int tile_w = i; tile_w < i + 32 && tile_w < image_width; tile_w ++)
+                {
+                   color pixel_color(0, 0, 0); 
+                   std::clog << tile_w;
+                   for(int sample = 0; sample < samples_per_pixel; sample ++)
+                   {
+                        ray r = get_ray(tile_w, tile_h); 
+                        pixel_color += ray_color(r, max_depth, world);
+                   }
+                   int position = (tile_h * image_width + tile_w) * 3;
+                   write_color(pixel_samples_scale * pixel_color, image_data, position);
+                }
+                
+            }
+        }
+
         void initialize()
         {
             // Calculate image height, ensuring its at least 1.
