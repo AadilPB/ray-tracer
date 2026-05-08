@@ -6,6 +6,7 @@
 #include "material.h"
 #include "sphere.h"
 #include "thread_pool.h"
+#include "renderer.h"
 
 #include <chrono>
 #include <vector>
@@ -84,92 +85,11 @@ int main()
 
     
     
-    auto start = std::chrono::steady_clock::now();
-    
-    cam.initialize();
-    
-    std::vector<uint8_t> image_data(cam.image_height * cam.image_width * 3, 0);
-    
-    
-    window win(cam.image_width, cam.image_height);
-    
-    win.open_window();
-    /*
-    std::vector<std::future<void>> futures;
-    
-    thread_pool pool;
-    
-    std::atomic<int> completed = 0;
-
-    std::mutex scanline_count_mutex;
-    std::mutex window_mutex;*/
-    /*
-    for (int j = 0; j < cam.image_height; j++)
-    {
-           
-        futures.push_back(pool.enqueue([&, j]() mutable{
-            cam.render_scanline(world, j, image_data);
-            completed++;
-            {
-                std::lock_guard<std::mutex> lock(scanline_count_mutex);
-                std::clog << "\rScanline remaining: " << (cam.image_height - completed) << ' ' << std::flush; 
-            }
-             
-            {
-                std::lock_guard<std::mutex> lock(scanline_count_mutex);
-                
-                win.update_display(image_data);
-                
-            }
-        }));     
-    }
-
-    for (auto& f : futures)
-    {
-        f.get();
-        if(win.process_event() == false)
-        {
-            break;
-        }
-        
-    }*/
-    
-    int tiles = (cam.image_height + 31) / 32 * (cam.image_height + 31)/32; 
-    int cur_tiles = 0;
-    for(int j = 0; j < cam.image_height; j += 32)
-    {
-        
-        for(int i = 0; i < cam.image_width; i += 32)
-        {
-            std::clog << "\rTiles remaining: " << tiles - cur_tiles << ' ' << std::flush;
-            cam.render_tile(world, i, j, image_data);
-            cur_tiles++;
-            win.update_display(image_data);
-                    
-            
-        }
-        if(win.process_event() == false)
-        {
-            break;
-        }
-       
-    }
-
-    auto end = std::chrono::steady_clock::now();
-
-    auto elapsed = end - start;
-
-    std::clog << "Elapsed time: "  << duration_cast<milliseconds>(elapsed).count() << " ms";
-    
-    stbi_write_png("image.png", cam.image_width, cam.image_height, 3, image_data.data(), cam.image_width * 3);
-    std::clog << "\rDone.                 \n";
-
-    win.poll_event();
-    
-
- 
    
+    
+    renderer render(cam, world, 11);
 
+    render.tile_render();
 
 }
 

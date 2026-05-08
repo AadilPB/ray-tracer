@@ -52,11 +52,9 @@ class camera
             for(int tile_h = j; tile_h < j + 32 && tile_h < image_height; tile_h ++)
             {
                 
-                std::clog << tile_h;
                 for(int tile_w = i; tile_w < i + 32 && tile_w < image_width; tile_w ++)
                 {
                    color pixel_color(0, 0, 0); 
-                   std::clog << tile_w;
                    for(int sample = 0; sample < samples_per_pixel; sample ++)
                    {
                         ray r = get_ray(tile_w, tile_h); 

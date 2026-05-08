@@ -15,6 +15,7 @@ class window
         window(int width, int height) : width(width), height(height)
         {} 
 
+        window() : width(0), height(0) {}
       
 
         void open_window()
