@@ -12,6 +12,13 @@ class interval
 
         interval(double min, double max) : min(min), max(max) {}
 
+        interval(const interval& a, const interval& b)
+        {
+            //Create an interval that will enclose the two input intervals
+            min = a.min <= b.min ? a.min : b.min;
+            max = a.max >= b.max ? a.max : b.max;
+        }
+
         double size() const
         {
             return max - min;
@@ -33,6 +40,12 @@ class interval
             if (x < min) return min;
             if (x > max) return max;
             return x;
+        }
+
+        interval expand(double delta) const
+        {
+            double pad = delta/2;
+            return interval(min - pad, max + pad);
         }
 
         static const interval empty, universe;

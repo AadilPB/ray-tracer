@@ -16,13 +16,13 @@ class camera
 
 
     public:
-        double aspect_ratio      = 1.0;  //Ratio of image width over height
-        int    image_width       = 100;  // Rendered unage width in pixel count
+        double aspect_ratio      = 1.0;  // Ratio of image width over height
+        int    image_width       = 100;  // Rendered image width in pixel count
         int    samples_per_pixel = 10;   // Count of random samples for each pixel
         int    max_depth         = 10;   // maximum number of ray bounces into the scene
-        int    image_height;        //Rendered image height
+        int    image_height;             //Rendered image height
         
-        double vfov     = 90;               // Vertical view angle (Fielf of View)
+        double vfov     = 90;               // Vertical view angle (Field of View)
         point3 lookfrom = point3(0, 0, 0);  // Point camera is looking up from
         point3 lookat   = point3(0, 0, 0);  // Point camera is looking at
         vec3   vup      = vec3(0, 1, 0);    // Camera_relative "up" direction
