@@ -1,6 +1,9 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image_write.h"
+
 #include "camera.h"
 #include "hittable_list.h"
 #include "thread_pool.h"

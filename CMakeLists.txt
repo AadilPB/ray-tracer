@@ -17,3 +17,9 @@ target_include_directories(ray-tracer PRIVATE
 
 target_link_libraries(ray-tracer PRIVATE SDL2::SDL2)
 
+add_custom_command (TARGET ray-tracer POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/textures
+    $<TARGET_FILE_DIR:ray-tracer>/textures
+)
+

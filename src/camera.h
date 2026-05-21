@@ -1,9 +1,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "stb_image_write.h"
-
 #include "raytracer.h"
 #include "hittable.h"
 #include "material.h"
