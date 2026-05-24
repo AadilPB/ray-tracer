@@ -136,8 +136,8 @@ void earth()
 
     cam.vfov     = 20;
     cam.lookfrom = point3(0, 0, -12);
-    cam.lookat   = point3(0,-1 ,0);
-    cam.vup      = vec3(0,1,0);
+    cam.lookat   = point3(0, -1 ,0);
+    cam.vup      = vec3(0, 1, 0);
 
     cam.defocus_angle = 0;
 
@@ -147,14 +147,42 @@ void earth()
 
 }
 
+void perlin_spheres()
+{
+    hittable_list world;
+
+    auto pertext = make_shared<noise_texture>(4);
+    world.add(make_shared<sphere>(point3(0,-1000,0), 1000, make_shared<lambertian>(pertext)));
+    world.add(make_shared<sphere>(point3(0,2,0), 2, make_shared<lambertian>(pertext)));
+
+    camera cam;
+
+    cam.aspect_ratio      = 16.0 / 9.0;
+    cam.image_width       = 640;
+    cam.samples_per_pixel = 100;
+    cam.max_depth         = 50;
+
+    cam.vfov     = 20;
+    cam.lookfrom = point3(13, 2, 3);
+    cam.lookat   = point3(0, 0 ,0);
+    cam.vup      = vec3(0, 1 ,0);
+
+    cam.defocus_angle = 0;
+
+    renderer render(cam, world, 11);
+
+    render.scanline_render();
+}
+
     int main() 
 {
    
-    switch (3)
+    switch (4)
     {
         case 1: bouncing_spheres();  break;
         case 2: checkered_spheres(); break;
         case 3: earth();             break;
+        case 4: perlin_spheres();    break;
     }
     
 }
