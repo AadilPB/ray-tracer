@@ -103,7 +103,7 @@ inline shared_ptr<hittable_list> box(const point3& a, const point3& b, shared_pt
     sides->add(make_shared<quad>(point3(max.x(), min.y(), min.z()), -dx,  dy, mat)); // back
     sides->add(make_shared<quad>(point3(min.x(), min.y(), min.z()),  dz,  dy, mat)); // left
     sides->add(make_shared<quad>(point3(min.x(), max.y(), max.z()),  dx, -dz, mat)); // top
-    sides->add(make_shared<quad>(point3(min.x(), max.y(), min.z()),  dx,  dz, mat)); // bottom
+    sides->add(make_shared<quad>(point3(min.x(), min.y(), min.z()),  dx,  dz, mat)); // bottom
 
     return sides;
 }

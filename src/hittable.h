@@ -112,6 +112,8 @@ class rotate_y : public hittable
                     }
                 }
             }
+
+            bbox = aabb(min, max);
         }
 
         bool hit(const ray& r, interval ray_t, hit_record& rec) const override
