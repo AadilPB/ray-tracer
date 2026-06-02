@@ -12,6 +12,8 @@ target_include_directories(ray-tracer PRIVATE
     ${SDL2_INCLUDE_DIRS}
     src/
     external/
+    src/math
+    src/geometry
     )
 
 

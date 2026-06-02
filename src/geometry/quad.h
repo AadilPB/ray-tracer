@@ -2,7 +2,7 @@
 #define QUAD_H
 
 #include "hittable.h"
-#include "hittable_list.h"
+#include "raytracer.h"
 
 class quad : public hittable
 {
