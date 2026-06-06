@@ -22,52 +22,34 @@ class tri : public hittable
 
         bool hit( const ray& r, interval ray_t, hit_record& rec ) const override
         {
-            auto denom = dot(normal, r.direction());
-
-            if(std::fabs(denom) < 1e-8)
-                return false;
-
-            auto t = (D - dot(normal, r.origin())) / denom;
-
-            if(!ray_t.contains(t))
-                return false;
-
-            auto intersection = r.at(t);
-           
-            double area = normal.length();
-
-            vec3 edge_cross; // Vector perpendicular to the plane of the triangle
-
-            // Find u for the triangle 
-            vec3 v1p = intersection - v1;
-            vec3 v1v2 = v2 - v1;
-            edge_cross = cross(v1v2, v1p);
-            auto u = dot(normal, edge_cross);
-            if (u < 0) return false;
-
-            // Find v for the triangle 
-            vec3 v2p = intersection - v2;
-            vec3 v2v0 = v0 - v2;
-            edge_cross = cross(v2v0, v2p);
-            auto v = dot(normal, edge_cross);
-            if (v < 0) return false;
-
             
-            vec3 v0p = intersection - v0;
-            edge_cross = cross(edge0, v0p);
-            if (dot(normal, edge_cross) < 0) return false;
+            vec3 pvec = cross(r.direction(), edge1);
+            double det = dot(edge0, pvec);
 
-            u /= denom;
-            v /= denom;
+            // Include both faces
+            if (std::fabs(det) < 1e-8) return false;
 
+            double inv_det = 1.0 / det;
+           
+            // Find u coordinate in barycentric coordinate system
+            vec3 tvec = r.origin() - v0;
+            auto u = dot(tvec, pvec) * inv_det;
+            if(u < 0 || u > 1) return false;
+            
+            // Find v coordinate in barycentric coordinate system
+            vec3 qvec = cross(tvec, edge0);
+            auto v = dot(r.direction(), qvec) * inv_det;
+            if(v < 0 || u + v > 1) return false;
+
+            // Ray parameter t
+            auto t = dot(edge1, qvec) * inv_det;
+            if(!ray_t.contains(t)) return false;
+
+            rec.t = t;
             rec.u = u;
             rec.v = v;
-            rec.t = t;
-            rec.p = intersection;
             rec.mat = mat;
             rec.set_face_normal(r, normal);
-
-
             return true;
         }
 

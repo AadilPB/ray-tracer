@@ -438,28 +438,38 @@ void final_scene(int image_width, int samples_per_pixel, int max_depth)
     render.scanline_render();
 }
 
-void tris()
+void pyramid()
 {
    hittable_list world;
 
     // Materials
-    auto mat = make_shared<lambertian>(color(1.0, 0.2, 0.2));
+    auto mat_front = make_shared<lambertian>(color(1, 0, 0));
+    auto mat_right = make_shared<lambertian>(color(0, 1, 0));
+    auto mat_back  = make_shared<lambertian>(color(0, 0, 1));
+    auto mat_left  = make_shared<lambertian>(color(1, 1, 0));
+    auto mat_base  = make_shared<lambertian>(color(1, 0, 1));
 
     // Tri
-    world.add(make_shared<tri>(vec3( -1,  -1, -5), vec3( 1, -1, -5), vec3(0, 1, -5), mat));
+    world.add(make_shared<tri>(vec3( -1,  -1, -5), vec3( 1, -1, -5), vec3(0, 1, -6), mat_front));
+    world.add(make_shared<tri>(vec3(  1,  -1, -5), vec3( 1, -1, -7), vec3(0, 1, -6), mat_right));
+    world.add(make_shared<tri>(vec3(  1,  -1, -7), vec3(-1, -1, -7), vec3(0, 1, -6), mat_back));
+    world.add(make_shared<tri>(vec3( -1,  -1, -7), vec3(-1, -1, -5), vec3(0, 1, -6), mat_left));
+    
+    world.add(make_shared<tri>(vec3( -1, -1, -5), vec3(1, -1, -5), vec3( 1, -1, -7), mat_base));
+    world.add(make_shared<tri>(vec3( -1, -1, -5), vec3(1, -1, -7), vec3(-1, -1, -7), mat_base));
 
 
     camera cam;
 
     cam.aspect_ratio      = 1.0;
     cam.image_width       = 400;
-    cam.samples_per_pixel = 100;
+    cam.samples_per_pixel = 250;
     cam.max_depth         = 50;
-    cam.background        = color(0.70, 0.80, 1.00);
+    cam.background        = color(.5, 0.7, 1.0);
 
-    cam.vfov     = 50;
-    cam.lookfrom = point3(0, 0,  0);
-    cam.lookat   = point3(0, 0, -1);
+    cam.vfov     = 60;
+    cam.lookfrom = point3(4, 3, -1);
+    cam.lookat   = point3(0, 0, -6);
     cam.vup      = vec3(0, 1 ,0);
 
     cam.defocus_angle = 0;
@@ -484,7 +494,7 @@ int main(int argc, char* argv[])
         case 7:  cornell_box();               break;
         case 8:  cornell_smoke();             break;
         case 9:  final_scene(800, 10000, 40); break;
-        case 10: tris();                       break;
+        case 10: pyramid();                   break;
         default: final_scene(400,   250,  4); break;
     }
     
