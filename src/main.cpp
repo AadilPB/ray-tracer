@@ -12,6 +12,7 @@
 #include "thread_pool.h"
 #include "renderer.h"
 #include "texture.h"
+#include "scene_reader.h"
 
 #include <chrono>
 #include <vector>
@@ -480,6 +481,18 @@ void pyramid()
 } 
 
 
+void read_json_test()
+{
+    hittable_list world;
+    camera cam;
+
+    scene_reader::load_scene("scenes/sphere.json", cam, world);
+
+    renderer render(cam, world, 11);
+
+    render.scanline_render();
+}
+
 int main(int argc, char* argv[]) 
 {
     int scene = argc > 1 ? std::atoi(argv[1]) : 0;
@@ -495,6 +508,7 @@ int main(int argc, char* argv[])
         case 8:  cornell_smoke();             break;
         case 9:  final_scene(800, 10000, 40); break;
         case 10: pyramid();                   break;
+        case 11: read_json_test();            break;
         default: final_scene(400,   250,  4); break;
     }
     

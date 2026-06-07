@@ -41,30 +41,26 @@ class renderer
         {
             auto start = std::chrono::steady_clock::now();
     
+            futures.clear();
             cam.initialize();
-              
             win.open_window();
             
             std::atomic<int> completed = 0;
+            std::atomic<bool> quit = false; 
 
             std::mutex scanline_count_mutex;
-            std::mutex window_mutex;
+            
             for (int j = 0; j < cam.image_height; j++)
             {
                 
                 futures.push_back(pool.enqueue([&, j]() mutable{
+                    if (quit == 1) return; 
+                    
                     cam.render_scanline(world, j, image_data);
                     completed++;
                     {
                         std::lock_guard<std::mutex> lock(scanline_count_mutex);
                         std::clog << "\rScanlines remaining: " << (cam.image_height - completed) << ' ' << std::flush; 
-                    }
-                    
-                    {
-                        std::lock_guard<std::mutex> lock(window_mutex);
-                        
-                        win.update_display(image_data);
-                        
                     }
                 }));     
             }
@@ -72,8 +68,11 @@ class renderer
             for (auto& f : futures)
             {
                 f.get();
+                win.update_display(image_data);
+                
                 if(win.process_event() == false)
                 {
+                    quit = true;
                     break;
                 }
                 
@@ -84,7 +83,6 @@ class renderer
             auto elapsed = end - start;
 
             std::clog << "Elapsed time: "  << duration_cast<milliseconds>(elapsed).count() << " ms";
-            
             stbi_write_png("image.png", cam.image_width, cam.image_height, 3, image_data.data(), cam.image_width * 3);
             std::clog << "\rDone.                 \n";
 
@@ -96,47 +94,41 @@ class renderer
         {
             auto start = std::chrono::steady_clock::now();
     
+            futures.clear();
             cam.initialize();
               
             win.open_window();
             
             std::atomic<int> cur_tiles = 0;
+            std::atomic<bool> quit = false; 
 
             int tiles = (cam.image_height + 31) / 32 * (cam.image_width + 31)/32; 
 
             std::mutex tile_count_mutex;
-            std::mutex window_mutex;
             
-                for (int j = 0; j < cam.image_height; j += 32)
+            for (int j = 0; j < cam.image_height; j += 32)
+            {
+                for(int i = 0; i < cam.image_width; i += 32)
                 {
-                    for(int i = 0; i < cam.image_width; i += 32)
-                    {
-                        futures.push_back(pool.enqueue([&, i, j]() mutable{
+                    futures.push_back(pool.enqueue([&, i, j]() mutable{
+                        if (quit == 1) return; 
                         cam.render_tile(world, i, j, image_data);
-                        cur_tiles++;
-                        
+                        cur_tiles++;            
                         {
                             std::lock_guard<std::mutex> lock(tile_count_mutex);
                             std::clog << "\rTiles remaining: " << (tiles - cur_tiles) << ' ' << std::flush; 
                         }
-
-                        {
-                            std::lock_guard<std::mutex> lock(window_mutex);
-                                                    
-                            win.update_display(image_data);
-                                                    
-                        }
-                        })); 
-                    }
-                    
-                       
-                }
+                    })); 
+                }          
+            }
 
             for (auto& f : futures)
             {
                 f.get();
+                win.update_display(image_data);
                 if(win.process_event() == false)
                 {
+                    quit = true;
                     break;
                 }
                 

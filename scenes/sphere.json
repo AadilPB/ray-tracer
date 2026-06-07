@@ -1,0 +1,24 @@
+{
+    "camera":{
+        "image_width"       : 640,
+        "image_height"      : 360,
+        "samples_per_pixel" : 100,
+        "max_depth"         : 50,
+        "background"        : [0.70, 0.80, 1.00],
+        "vfov"              : 20,
+        "lookfrom"          : [13, 2, 3],
+        "lookat"            : [0, 0, 0],
+        "vup"               : [0, 1, 0],
+        "defocus_angle"     : 0
+    },
+
+    "objects":[
+        {
+            "type"     : "sphere",
+            "center"   : [0, -10, 0],
+            "radius"   : 10,
+            "material" : "lambertian",
+            "color"    : [1, 0, 0]
+        }
+    ]
+}

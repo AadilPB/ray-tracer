@@ -25,3 +25,9 @@ add_custom_command (TARGET ray-tracer POST_BUILD
     $<TARGET_FILE_DIR:ray-tracer>/textures
 )
 
+add_custom_command (TARGET ray-tracer POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/scenes
+    $<TARGET_FILE_DIR:ray-tracer>/scenes
+)
+
