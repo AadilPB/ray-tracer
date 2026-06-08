@@ -481,12 +481,12 @@ void pyramid()
 } 
 
 
-void read_json_test()
+void read_json_test(const char* path)
 {
     hittable_list world;
     camera cam;
 
-    scene_reader::load_scene("scenes/sphere.json", cam, world);
+    scene_reader::load_scene(path, cam, world);
 
     renderer render(cam, world, 11);
 
@@ -508,7 +508,8 @@ int main(int argc, char* argv[])
         case 8:  cornell_smoke();             break;
         case 9:  final_scene(800, 10000, 40); break;
         case 10: pyramid();                   break;
-        case 11: read_json_test();            break;
+        case 11: if(argc > 2) 
+                 read_json_test(argv[2]);     break;
         default: final_scene(400,   250,  4); break;
     }
     
