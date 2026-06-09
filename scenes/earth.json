@@ -1,7 +1,7 @@
 {
-    "camera":{
+    "camera" : {
         "aspect_ratio"      : [16, 9],
-        "image_width"       : 640,
+        "image_width"       : 400,
         "samples_per_pixel" : 100,
         "max_depth"         : 50,
         "background"        : [0.70, 0.80, 1.00],
@@ -11,25 +11,17 @@
         "vup"               : [0, 1, 0],
         "defocus_angle"     : 0
     },
-
-    "objects":[
+    "objects" : [
         {
             "type"     : "sphere",
-            "center"   : [0, -2, 0],
+            "center"   : [0, 0, 0],
             "radius"   : 2,
             "material" : {
-                "type"  : "lambertian",
-                "color" : [1, 0, 0]
-            }
-        },
-        {
-            "type"     : "sphere",
-            "center"   : [0,  2, 0],
-            "radius"   : 2,
-            "material" : {
-                "type"   : "metal",
-                "albedo" : [1, 0.5, 0.5],
-                "fuzz"   : 0.25
+                "type" : "lambertian",
+                "texture"  : {
+                    "type"     : "image_texture",
+                    "filename" : "textures/earthmap.jpg"
+                }
             }
             
         }

@@ -1,7 +1,7 @@
 {
     "camera":{
+        "aspect_ratio"      : [16, 9],
         "image_width"       : 640,
-        "image_height"      : 360,
         "samples_per_pixel" : 100,
         "max_depth"         : 50,
         "background"        : [0, 0, 0],
@@ -18,8 +18,11 @@
             "center"   : [0, -1000, 0],
             "radius"   : 1000,
             "material" : {
-                "type"  : "lambertian",
-                "color" : [1, 0, 0]
+                "type"    : "lambertian",
+                "texture" : {
+                    "type"  : "noise_texture",
+                    "scale" : 4
+                }
             }
         },
         {
@@ -27,8 +30,11 @@
             "center"   : [0,  2, 0],
             "radius"   : 2,
             "material" : {
-                "type"  : "lambertian",
-                "color" : [1, 0.5, 0.5]
+                "type"    : "lambertian",
+                "texture" : {
+                    "type"  : "noise_texture",
+                    "scale" : 4
+                }
             }
             
         },
@@ -37,7 +43,7 @@
             "center"   : [-20, 5, 0],
             "radius"   : 2,
             "material" : {
-                "type"  : "diffuse_light",
+                "type" : "diffuse_light",
                 "emit" : [10, 10, 10]
             }
         },

@@ -83,7 +83,7 @@ class renderer
             auto elapsed = end - start;
 
             std::clog << "Elapsed time: "  << duration_cast<milliseconds>(elapsed).count() << " ms";
-            stbi_write_png("image.png", cam.image_width, cam.image_height, 3, image_data.data(), cam.image_width * 3);
+            stbi_write_png("renders/image.png", cam.image_width, cam.image_height, 3, image_data.data(), cam.image_width * 3);
             std::clog << "\rDone.                 \n";
 
             win.poll_event();
