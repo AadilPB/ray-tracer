@@ -47,3 +47,5 @@ renders/*
 
 textures/*
 !textures/.gitkeep
+
+scripts\__pycache__

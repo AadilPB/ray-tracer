@@ -18,8 +18,8 @@
             "center"   : [0, -2, 0],
             "radius"   : 2,
             "material" : {
-                "type"  : "lambertian",
-                "color" : [1, 0, 0]
+                "type"   : "lambertian",
+                "albedo" : [1, 0, 0]
             }
         },
         {

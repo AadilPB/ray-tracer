@@ -18,8 +18,8 @@
             "u"        : [0, 555, 0],
             "v"        : [0, 0, 555],
             "material" : {
-                "type"  : "lambertian",
-                "color" : [0.12, 0.45, 0.15]
+                "type"   : "lambertian",
+                "albedo" : [0.12, 0.45, 0.15]
             }
         },
           {
@@ -28,8 +28,8 @@
             "u"        : [0, 555, 0],
             "v"        : [0, 0, 555],
             "material" : {
-                "type"  : "lambertian",
-                "color" : [0.65, 0.05, 0.06]
+                "type"   : "lambertian",
+                "albedo" : [0.65, 0.05, 0.06]
             }
         },
           {
@@ -39,7 +39,7 @@
             "v"        : [0, 0, -105],
             "material" : {
                 "type"  : "diffuse_light",
-                "emit" : [15, 15, 15]
+                "emit"  : [15, 15, 15]
             }
         },
           {
@@ -48,8 +48,8 @@
             "u"        : [555, 0, 0],
             "v"        : [0, 0, 555],
             "material" : {
-                "type"  : "lambertian",
-                "color" : [0.73, 0.73, 0.73]
+                "type"   : "lambertian",
+                "albedo" : [0.73, 0.73, 0.73]
             }
         },
           {
@@ -59,7 +59,7 @@
             "v"        : [0, 0, -555],
             "material" : {
                 "type"  : "lambertian",
-                "color" : [0.73, 0.73, 0.73]
+                "albedo" : [0.73, 0.73, 0.73]
             }
         },
         {
@@ -68,8 +68,8 @@
             "u"        : [555, 0, 0],
             "v"        : [0, 555, 0],
             "material" : {
-                "type"  : "lambertian",
-                "color" : [0.73, 0.73, 0.73]
+                "type"   : "lambertian",
+                "albedo" : [0.73, 0.73, 0.73]
             }
         },
         {
@@ -83,8 +83,8 @@
                     "a"        : [0, 0, 0],
                     "b"        : [165, 330, 165],
                     "material" : {
-                        "type"  : "lambertian",
-                        "color" : [0.73, 0.73, 0.73]
+                        "type"   : "lambertian",
+                        "albedo" : [0.73, 0.73, 0.73]
                     } 
                 }
             }
@@ -101,8 +101,8 @@
                     "a"        : [0, 0, 0],
                     "b"        : [165, 165, 165],
                     "material" : {
-                        "type"  : "lambertian",
-                        "color" : [0.73, 0.73, 0.73]
+                        "type"   : "lambertian",
+                        "albedo" : [0.73, 0.73, 0.73]
                     } 
                 }
             }

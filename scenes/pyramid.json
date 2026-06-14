@@ -1,0 +1,191 @@
+{
+    "camera": {
+        "aspect_ratio": [
+            1.0,
+            1.0
+        ],
+        "image_width": 400,
+        "samples_per_pixel": 250,
+        "max_depth": 50,
+        "background": [
+            0.5,
+            0.7,
+            1.0
+        ],
+        "vfov": 60,
+        "lookfrom": [
+            4,
+            3,
+            -1
+        ],
+        "lookat": [
+            0,
+            0,
+            -6
+        ],
+        "vup": [
+            0,
+            1,
+            0
+        ],
+        "defocus_angle": 0
+    },
+    "objects": [
+        {
+            "type": "tri",
+            "v0": [
+                -1,
+                -1,
+                -5
+            ],
+            "v1": [
+                1,
+                -1,
+                -5
+            ],
+            "v2": [
+                0,
+                1,
+                -6
+            ],
+            "material": {
+                "type": "lambertian",
+                "albedo": [
+                    1,
+                    0,
+                    0
+                ]
+            }
+        },
+        {
+            "type": "tri",
+            "v0": [
+                1,
+                -1,
+                -5
+            ],
+            "v1": [
+                1,
+                -1,
+                -7
+            ],
+            "v2": [
+                0,
+                1,
+                -6
+            ],
+            "material": {
+                "type": "lambertian",
+                "albedo": [
+                    0,
+                    1,
+                    0
+                ]
+            }
+        },
+        {
+            "type": "tri",
+            "v0": [
+                1,
+                -1,
+                -7
+            ],
+            "v1": [
+                -1,
+                -1,
+                -7
+            ],
+            "v2": [
+                0,
+                1,
+                -6
+            ],
+            "material": {
+                "type": "lambertian",
+                "albedo": [
+                    0,
+                    0,
+                    1
+                ]
+            }
+        },
+        {
+            "type": "tri",
+            "v0": [
+                -1,
+                -1,
+                -7
+            ],
+            "v1": [
+                -1,
+                -1,
+                -5
+            ],
+            "v2": [
+                0,
+                1,
+                -6
+            ],
+            "material": {
+                "type": "lambertian",
+                "albedo": [
+                    1,
+                    1,
+                    0
+                ]
+            }
+        },
+        {
+            "type": "tri",
+            "v0": [
+                -1,
+                -1,
+                -5
+            ],
+            "v1": [
+                1,
+                -1,
+                -5
+            ],
+            "v2": [
+                1,
+                -1,
+                -7
+            ],
+            "material": {
+                "type": "lambertian",
+                "albedo": [
+                    1,
+                    0,
+                    1
+                ]
+            }
+        },
+        {
+            "type": "tri",
+            "v0": [
+                -1,
+                -1,
+                -5
+            ],
+            "v1": [
+                1,
+                -1,
+                -7
+            ],
+            "v2": [
+                -1,
+                -1,
+                -7
+            ],
+            "material": {
+                "type": "lambertian",
+                "albedo": [
+                    1,
+                    0,
+                    1
+                ]
+            }
+        }
+    ]
+}
