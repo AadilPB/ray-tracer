@@ -175,11 +175,12 @@ namespace scene_reader
                 auto tex = load_texture(mat["texture"]);
                 return make_shared<lambertian>(tex);
             }
-            else{
+            else
+            {
                 auto obj_color = mat.at("albedo").get<std::vector<double>>();
                 return make_shared<lambertian>(color(obj_color[0], obj_color[1], obj_color[2])); 
             }
-                return nullptr;
+            return nullptr;
         }
             
         if(mat.at("type") == "metal")
@@ -197,8 +198,17 @@ namespace scene_reader
 
         if(mat.at("type") == "diffuse_light")
         {
-            auto obj_emit = mat.at("emit").get<std::vector<double>>();
-            return make_shared<diffuse_light>(color(obj_emit[0], obj_emit[1], obj_emit[2]));
+            if(mat.contains("texture"))
+            {
+                auto tex = load_texture(mat["texture"]);
+                return make_shared<diffuse_light>(tex);
+            }
+            else
+            {
+                auto obj_emit = mat.at("emit").get<std::vector<double>>();
+                return make_shared<diffuse_light>(color(obj_emit[0], obj_emit[1], obj_emit[2]));
+            }
+            return nullptr;   
         }
 
         return nullptr;

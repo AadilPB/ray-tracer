@@ -141,6 +141,24 @@ def dielectric(refraction_index):
     }
     return dielectric_def
 
+def diffuse_light(emit = None, texture = None):
+    if emit is None and texture is None:
+        raise ValueError("diffuse_light material needs either an emittance or texture input")
+    
+    if emit is not None:
+        result = {
+            "type" : "diffuse_light",
+            "emit" : emit
+        }
+    
+    else:
+        result = {
+            "type"    : "diffuse_light",
+            "texture" : texture 
+        }
+    
+    return result
+
 
 #Textures
 

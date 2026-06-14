@@ -8,9 +8,9 @@
         "samples_per_pixel": 250,
         "max_depth": 50,
         "background": [
-            0.5,
-            0.7,
-            1.0
+            0,
+            0,
+            0
         ],
         "vfov": 60,
         "lookfrom": [
@@ -50,11 +50,10 @@
             ],
             "material": {
                 "type": "lambertian",
-                "albedo": [
-                    1,
-                    0,
-                    0
-                ]
+                "texture": {
+                    "type": "noise_texture",
+                    "scale": 4
+                }
             }
         },
         {
@@ -76,11 +75,10 @@
             ],
             "material": {
                 "type": "lambertian",
-                "albedo": [
-                    0,
-                    1,
-                    0
-                ]
+                "texture": {
+                    "type": "noise_texture",
+                    "scale": 4
+                }
             }
         },
         {
@@ -102,11 +100,10 @@
             ],
             "material": {
                 "type": "lambertian",
-                "albedo": [
-                    0,
-                    0,
-                    1
-                ]
+                "texture": {
+                    "type": "noise_texture",
+                    "scale": 4
+                }
             }
         },
         {
@@ -128,11 +125,10 @@
             ],
             "material": {
                 "type": "lambertian",
-                "albedo": [
-                    1,
-                    1,
-                    0
-                ]
+                "texture": {
+                    "type": "noise_texture",
+                    "scale": 4
+                }
             }
         },
         {
@@ -154,11 +150,10 @@
             ],
             "material": {
                 "type": "lambertian",
-                "albedo": [
-                    1,
-                    0,
-                    1
-                ]
+                "texture": {
+                    "type": "noise_texture",
+                    "scale": 4
+                }
             }
         },
         {
@@ -180,10 +175,51 @@
             ],
             "material": {
                 "type": "lambertian",
-                "albedo": [
-                    1,
-                    0,
-                    1
+                "texture": {
+                    "type": "noise_texture",
+                    "scale": 4
+                }
+            }
+        },
+        {
+            "type": "quad",
+            "q": [
+                -500,
+                -1,
+                5
+            ],
+            "u": [
+                1000,
+                0,
+                0
+            ],
+            "v": [
+                0,
+                0,
+                -1000
+            ],
+            "material": {
+                "type": "lambertian",
+                "texture": {
+                    "type": "noise_texture",
+                    "scale": 4
+                }
+            }
+        },
+        {
+            "type": "sphere",
+            "center": [
+                -5,
+                3,
+                -6
+            ],
+            "radius": 3,
+            "material": {
+                "type": "diffuse_light",
+                "emit": [
+                    10,
+                    10,
+                    10
                 ]
             }
         }
