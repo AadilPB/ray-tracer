@@ -488,6 +488,8 @@ void read_json_test(const char* path)
 
     scene_reader::load_scene(path, cam, world);
 
+    world = hittable_list(make_shared<bvh_node>(world));
+    
     renderer render(cam, world, 11);
 
     render.scanline_render();

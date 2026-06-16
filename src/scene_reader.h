@@ -11,6 +11,7 @@
 #include "hittable_list.h"
 #include "material.h"
 #include "texture.h"
+#include "bvh.h"
 
 
 using json = nlohmann::json;
@@ -150,7 +151,7 @@ namespace scene_reader
         if(obj.at("type") == "constant_medium")
         {
             auto density = obj.at("density").get<double>();
-            auto boundary = read_object(obj.at("object"));
+            auto boundary = read_object(obj.at("boundary"));
             if(obj.contains("texture")) 
             {
                 auto tex = load_texture(obj.at("texture"));
@@ -161,6 +162,17 @@ namespace scene_reader
                 auto medium_color = obj.at("albedo").get<std::vector<double>>();
                 return make_shared<constant_medium>(boundary, density, color(medium_color[0], medium_color[1], medium_color[2]));
             } 
+        }
+
+        if(obj.at("type") == "bvh_node")
+        {
+            hittable_list bvh;
+            
+            for(const auto& children : obj["children"])
+            {
+                bvh.add(read_object(children));
+            }
+            return make_shared<bvh_node>(bvh);
         }
 
         return nullptr;

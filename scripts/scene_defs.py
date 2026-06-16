@@ -74,7 +74,7 @@ def box(a, b, material):
     }
     return result
 
-def rotate_y(angle, subject):
+def rotate_y(subject, angle):
     result = {
         "type"   : "rotate_y",
         "angle"  : angle,
@@ -82,7 +82,7 @@ def rotate_y(angle, subject):
     }
     return result
 
-def translate(offset, subject):
+def translate(subject, offset):
     result = {
         "type"   : "translate",
         "offset" : offset,
@@ -90,21 +90,28 @@ def translate(offset, subject):
     }
     return result
 
-def constant_medium(density, boundary, texture = None, albedo = None):
+def constant_medium(boundary, density, texture = None, albedo = None):
     if texture is not None:
         result = {
             "type"     : "constant_medium",
-            "density"  : density,
             "boundary" : boundary,
+            "density"  : density,
             "texture"  : texture
         }
     else:
         result = {
             "type"     : "constant_medium",
-            "density"  : density,
             "boundary" : boundary,
+            "density"  : density,
             "albedo"  : albedo
         }
+    return result
+
+def bvh_node(children):
+    result = {
+        "type" : "bvh_node",
+        "children" : children
+    }
     return result
 
 # Materials
@@ -194,7 +201,7 @@ def noise_texture(scale):
 
 def image_texture(filename):
     result = {
-        "type"     : image_texture,
+        "type"     : "image_texture",
         "filename" : filename
     }
     return result
