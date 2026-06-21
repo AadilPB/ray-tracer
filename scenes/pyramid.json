@@ -50,10 +50,11 @@
             ],
             "material": {
                 "type": "lambertian",
-                "texture": {
-                    "type": "noise_texture",
-                    "scale": 4
-                }
+                "albedo": [
+                    0.98,
+                    0.68,
+                    0.05
+                ]
             }
         },
         {
@@ -75,10 +76,11 @@
             ],
             "material": {
                 "type": "lambertian",
-                "texture": {
-                    "type": "noise_texture",
-                    "scale": 4
-                }
+                "albedo": [
+                    0.98,
+                    0.68,
+                    0.05
+                ]
             }
         },
         {
@@ -100,10 +102,11 @@
             ],
             "material": {
                 "type": "lambertian",
-                "texture": {
-                    "type": "noise_texture",
-                    "scale": 4
-                }
+                "albedo": [
+                    0.98,
+                    0.68,
+                    0.05
+                ]
             }
         },
         {
@@ -125,10 +128,11 @@
             ],
             "material": {
                 "type": "lambertian",
-                "texture": {
-                    "type": "noise_texture",
-                    "scale": 4
-                }
+                "albedo": [
+                    0.98,
+                    0.68,
+                    0.05
+                ]
             }
         },
         {
@@ -150,10 +154,11 @@
             ],
             "material": {
                 "type": "lambertian",
-                "texture": {
-                    "type": "noise_texture",
-                    "scale": 4
-                }
+                "albedo": [
+                    0.98,
+                    0.68,
+                    0.05
+                ]
             }
         },
         {
@@ -175,10 +180,11 @@
             ],
             "material": {
                 "type": "lambertian",
-                "texture": {
-                    "type": "noise_texture",
-                    "scale": 4
-                }
+                "albedo": [
+                    0.98,
+                    0.68,
+                    0.05
+                ]
             }
         },
         {
@@ -216,11 +222,10 @@
             "radius": 3,
             "material": {
                 "type": "diffuse_light",
-                "emit": [
-                    10,
-                    10,
-                    10
-                ]
+                "texture": {
+                    "type": "image_texture",
+                    "filename": "textures/moon.png"
+                }
             }
         }
     ]

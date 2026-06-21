@@ -16,8 +16,16 @@ class tri : public hittable
                 auto n = cross(edge0, edge1);
                 normal = unit_vector(n);
                 D = dot(normal, v0);
+
+                set_bounding_box();
             }
 
+        virtual void set_bounding_box()
+        {
+            auto bbox1 = aabb(v0, v1);
+            auto bbox2 = aabb(v1, v2);
+            bbox = aabb(bbox1, bbox2);
+        }
         aabb bounding_box() const override { return bbox; }
 
         bool hit( const ray& r, interval ray_t, hit_record& rec ) const override
@@ -45,6 +53,7 @@ class tri : public hittable
             auto t = dot(edge1, qvec) * inv_det;
             if(!ray_t.contains(t)) return false;
 
+            rec.p = r.at(t);
             rec.t = t;
             rec.u = u;
             rec.v = v;
