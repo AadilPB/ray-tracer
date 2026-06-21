@@ -2,7 +2,7 @@ from scene_defs import *
 
 scene = {}
 
-scene["camera"] = camera([1.0, 1.0], 400, 250, 50, [0, 0, 0],
+scene["camera"] = camera([1.0, 1.0], 1200, 250, 50, [0, 0, 0],
                          60, [4, 3, -1], [0, 0, -6], [0, 1, 0], 
                          0)
 

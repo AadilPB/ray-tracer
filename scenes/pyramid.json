@@ -4,7 +4,7 @@
             1.0,
             1.0
         ],
-        "image_width": 400,
+        "image_width": 1200,
         "samples_per_pixel": 250,
         "max_depth": 50,
         "background": [
