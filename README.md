@@ -3,6 +3,7 @@
 ## Overview
 A CPU ray tracer engine based on the Ray Tracing in One Weekend(RTIOW) book series. The renderer uses multithreading for improved performance, scaling with the number of threads available on the user's CPU. An AMD Ryzen 5 3600 CPU was used for testing, using all 12 threads. Scenes are accepted in a JSON format, which can be generated using Python scripts provided in the ``scripts`` folder, with helper functions for writing the JSON found in ``scene_def.py``, alongside provided example scene scripts.
 
+
 ## Building and Running the Program
 ### Prerequisites
 1. To run this program a Windows 10/11 computer is required
@@ -44,12 +45,7 @@ raytrace filepath
 
 ## Future Additions
 
-- ~~Implement a *bounding volume hierarchy* data structure through the second book of the RTIOW book series~~
 - Implement Surface Area Heuristics to Bounded Volume Hierarchy
-- ~~Implement the ability to wrap textures around objects through the second book of the RTIOW book series~~
-- ~~Implement a JSON scene format and a C++ reader to write scenes without the need to recompile~~
-- ~~Implement a python automation script to generate JSON scene files~~
-- ~Implement a ray-triangle intersection~
 - Implement a .obj reader
 - Complete the third book of the RTIOW book series
 - Port to GPU compute library (OpenCL, Vulkan, TBD)
